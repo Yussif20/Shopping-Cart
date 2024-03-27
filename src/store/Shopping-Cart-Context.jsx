@@ -1,5 +1,5 @@
-import { useContext } from "react";
+import { createContext } from "react";
 
-export const CartContext = useContext({
+export const CartContext = createContext({
   items: [],
 });
