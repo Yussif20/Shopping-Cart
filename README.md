@@ -49,6 +49,10 @@ To get started with this project, follow these steps:
 5. **View the Website:**
    Once the development server has started, visit `http://localhost:3000` in your web browser to view the website.
 
+### Preview
+
+"/src/assets/screenshot.jpeg"
+
 ### Features
 
 - **Elegant Clothing Display:** Browse through a curated collection of elegant clothing items.
