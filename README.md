@@ -51,7 +51,7 @@ To get started with this project, follow these steps:
 
 ### Preview
 
-"/src/assets/screenshot.jpeg"
+![Shop Preview](/src/assets/screenshot.jpeg)
 
 ### Features
 
