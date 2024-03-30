@@ -1,4 +1,4 @@
-import { createContext, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 import { DUMMY_PRODUCTS } from "../dummy-products";
 
 export const CartContext = createContext({
@@ -39,6 +39,29 @@ const shoppingCartReducer = (state, action) => {
       items: updatedItems,
     };
   }
+  if (action.type === "UPDATE_ITEMS") {
+    const updatedItems = [...state.items];
+    const updatedItemIndex = updatedItems.findIndex(
+      (item) => item.id === action.payload.productId
+    );
+
+    const updatedItem = {
+      ...updatedItems[updatedItemIndex],
+    };
+
+    updatedItem.quantity += action.payload.amount;
+
+    if (updatedItem.quantity <= 0) {
+      updatedItems.splice(updatedItemIndex, 1);
+    } else {
+      updatedItems[updatedItemIndex] = updatedItem;
+    }
+
+    return {
+      ...state,
+      items: updatedItems,
+    };
+  }
   return state;
 };
 
@@ -48,41 +71,20 @@ export default function CartContextProvider({ children }) {
     { items: [] }
   );
 
-  const [shoppingCart, setShoppingCart] = useState({
-    items: [],
-  });
-
   function handleAddItemToCart(id) {
     shoppingCartDispatch({
       type: "ADD_ITEM",
       payload: id,
     });
-
-    setShoppingCart((prevShoppingCart) => {});
   }
 
   function handleUpdateCartItemQuantity(productId, amount) {
-    setShoppingCart((prevShoppingCart) => {
-      const updatedItems = [...prevShoppingCart.items];
-      const updatedItemIndex = updatedItems.findIndex(
-        (item) => item.id === productId
-      );
-
-      const updatedItem = {
-        ...updatedItems[updatedItemIndex],
-      };
-
-      updatedItem.quantity += amount;
-
-      if (updatedItem.quantity <= 0) {
-        updatedItems.splice(updatedItemIndex, 1);
-      } else {
-        updatedItems[updatedItemIndex] = updatedItem;
-      }
-
-      return {
-        items: updatedItems,
-      };
+    shoppingCartDispatch({
+      type: "UPDATE_ITEMS",
+      payload: {
+        productId: productId,
+        amount: amount,
+      },
     });
   }
 
